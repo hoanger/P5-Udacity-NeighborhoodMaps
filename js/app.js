@@ -85,22 +85,50 @@ function AppViewModel() {
 		}
 	];
 
-	// make editable dataset from data
-	var getPlaces = function(dataset) {
-		// create observable array
-		self.places = ko.observableArray();
+	// initiate variable to hold searchText
+	self.searchText = ko.observable('');
 
-		dataset.forEach(function(datum) {
-			self.places.push(new Place(datum));
-		});
-	};
+	// subscribe to changes in search bar
+	self.searchText.subscribe(function(newValue) {
+		console.log(newValue);
+		filterList(newValue);
+	});
 
+	// create places list from data
 	getPlaces(self.data);
 
 	// sort alphabetical by name
 	self.places.sort(function (left, right) {
 		return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
 	});
+
+	// make editable dataset from data
+	function getPlaces(dataset) {
+
+		// create observable array
+		self.places = ko.observableArray();
+
+		// push each place to observable array using dataset
+		dataset.forEach(function(datum) {
+			self.places.push(new Place(datum));
+		});
+	}
+
+	// searches text for any instance of input
+	function isMatch(input, str) {
+		var re = new RegExp(input, 'i');
+		console.log("input is " + input + ", str is " + str);
+		console.log(re.exec(str));
+		return (re.exec(str) !== null);
+	}
+
+	// hides and shows list based on match
+	function filterList(input) {
+		self.places().forEach(function(place) {
+			place.vis(isMatch(input, place.name));
+		});
+	}
+
 }
 
 // Initiate view model and apply bindings
