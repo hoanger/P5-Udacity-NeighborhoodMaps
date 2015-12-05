@@ -20,11 +20,12 @@ var options = {
 var map = new Mapper(element, options);
 
 // constructor for a place
-function Place(nom, pos) {
+function Place(obj) {
 	var self = this;
-	// set name and position
-	self.name = nom;
-	self.position = pos;
+
+	// set name and position from object
+	self.name = obj.name;
+	self.position = obj.position;
 
 	// create marker based on position
 	var opts = {};
@@ -37,7 +38,6 @@ function Place(nom, pos) {
 	// subscribe to visibility change and sync with marker visibility
 	self.vis.subscribe(function(newValue) {
 		map.setMarkerVis(self.marker, newValue);
-		//self.marker.setVisible(newValue);
 	});
 }
 
@@ -87,9 +87,9 @@ function AppViewModel() {
 
 	// make editable dataset from data
 	self.places = ko.observableArray();
-	for (i = 0; i < self.data.length; i++) {
-		self.places.push(new Place(self.data[i].name, self.data[i].position));
-	}
+	self.data.forEach(function(datum) {
+		self.places.push(new Place(datum));
+	});
 }
 
 // Initiate view model and apply bindings
