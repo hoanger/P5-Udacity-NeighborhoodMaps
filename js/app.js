@@ -24,10 +24,10 @@ function Place(nom, pos) {
 	var self = this;
 	self.name = nom;
 	self.position = pos;
-	self.visible = ko.observable(true);
+	self.vis = ko.observable(true);
 }
 
-// view model
+// view model constructor
 function AppViewModel() {
 	var self = this;
 
@@ -76,7 +76,8 @@ function AppViewModel() {
 	for (i = 0; i < self.data.length; i++) {
 		self.places.push(new Place(self.data[i].name, self.data[i].position));
 	}
-	console.log(self.places()[0].visible());
 }
 
-ko.applyBindings(new AppViewModel());
+// Initiate view model and apply bindings
+var viewModel = new AppViewModel();
+ko.applyBindings(viewModel);
