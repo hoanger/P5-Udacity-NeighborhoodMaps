@@ -45,7 +45,7 @@ function Place(obj) {
 function AppViewModel() {
 	var self = this;
 
-	// dataset
+	// dataset of dim sum restaurants
 	self.data = [
 		{
 			name: 'Kirin - Downtown',
@@ -86,10 +86,17 @@ function AppViewModel() {
 	];
 
 	// make editable dataset from data
-	self.places = ko.observableArray();
-	self.data.forEach(function(datum) {
-		self.places.push(new Place(datum));
-	});
+	var getPlaces = function(dataset) {
+		// create observable array
+		self.places = ko.observableArray();
+
+		dataset.forEach(function(datum) {
+			self.places.push(new Place(datum));
+		});
+	};
+
+	getPlaces(self.data);
+
 	// sort alphabetical by name
 	self.places.sort(function (left, right) {
 		return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
