@@ -8,6 +8,9 @@
 		addMarker: function(opts) {
 			opts.map = this.googleMap;
 			return new google.maps.Marker(opts);
+		},
+		setMarkerVis: function(marker, visible) {
+			marker.setVisible(visible);
 		}
 	};
 

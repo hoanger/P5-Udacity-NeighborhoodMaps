@@ -33,6 +33,12 @@ function Place(nom, pos) {
 
 	// set visibility of place
 	self.vis = ko.observable(true);
+
+	// subscribe to visibility change and sync with marker visibility
+	self.vis.subscribe(function(newValue) {
+		map.setMarkerVis(self.marker, newValue);
+		//self.marker.setVisible(newValue);
+	});
 }
 
 // view model constructor
