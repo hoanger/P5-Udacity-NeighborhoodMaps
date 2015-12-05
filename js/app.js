@@ -22,8 +22,16 @@ var map = new Mapper(element, options);
 // constructor for a place
 function Place(nom, pos) {
 	var self = this;
+	// set name and position
 	self.name = nom;
 	self.position = pos;
+
+	// create marker based on position
+	var opts = {};
+	opts.position = self.position;
+	self.marker = map.addMarker(opts);
+
+	// set visibility of place
 	self.vis = ko.observable(true);
 }
 
