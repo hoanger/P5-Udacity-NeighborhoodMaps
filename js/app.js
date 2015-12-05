@@ -90,6 +90,10 @@ function AppViewModel() {
 	self.data.forEach(function(datum) {
 		self.places.push(new Place(datum));
 	});
+	// sort alphabetical by name
+	self.places.sort(function (left, right) {
+		return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
+	});
 }
 
 // Initiate view model and apply bindings
