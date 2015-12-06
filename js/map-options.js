@@ -8,6 +8,8 @@
 		zoom: 11,
 		minZoom: 10,
 		maxZoom: 15,
+		mapTypeControl: false,
+		streetViewControl: false,
 		zoomControlOptions: {
 			position: google.maps.ControlPosition.LEFT_TOP
 		}

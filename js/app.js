@@ -14,6 +14,8 @@
 		var self = this;
 		// set name and position from object
 		self.name = obj.name;
+
+		// marker options
 		self.markerOpts = {
 			position: obj.position
 		};
