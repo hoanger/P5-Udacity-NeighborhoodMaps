@@ -10,8 +10,8 @@
 				opts.map = this.googleMap;
 				return new google.maps.Marker(opts);
 			},
-			setMarkerVis: function(marker, visible) {
-				marker.setVisible(visible);
+			setMarkerVis: function(marker, isVisible) {
+				marker.setVisible(isVisible);
 			}
 		};
 		return Mapper;
