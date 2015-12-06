@@ -14,10 +14,12 @@
 		var self = this;
 		// set name and position from object
 		self.name = obj.name;
-		self.position = obj.position;
+		self.markerOpts = {
+			position: obj.position
+		};
 
-		// create marker based on position
-		self.marker = map.addMarker({position: self.position});
+		// create marker based on marker options
+		self.marker = map.addMarker(self.markerOpts);
 
 		// set visibility of place
 		self.vis = ko.observable(true);
@@ -75,8 +77,6 @@
 	// searches text for any instance of input
 	function isMatch(input, str) {
 		var re = new RegExp(input, 'i');
-		console.log("input is " + input + ", str is " + str);
-		console.log(re.exec(str));
 		return (re.exec(str) !== null);
 	}
 
