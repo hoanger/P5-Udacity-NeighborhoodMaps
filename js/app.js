@@ -12,23 +12,24 @@
 	// constructor for a place
 	function Place(obj) {
 		var self = this;
-		// set name and position from object
-		self.name = obj.name;
-
 		// marker options
-		self.markerOpts = {
-			position: obj.position
+		var markerOpts = {
+			position: obj.position,
+			id: self.name
 		};
 
+		// set name
+		self.name = obj.name;
+
 		// create marker based on marker options
-		self.marker = map.addMarker(self.markerOpts);
+		map.addMarker(markerOpts);
 
 		// set visibility of place
 		self.vis = ko.observable(true);
 
 		// subscribe to visibility change and sync with marker visibility
 		self.vis.subscribe(function(newValue) {
-			self.marker.setVisible(newValue);
+			//self.marker.setVisible(newValue);
 		});
 	}
 
@@ -77,6 +78,7 @@
 	ko.applyBindings(viewModel);
 
 	// searches text for any instance of input
+	//returns true if params match, false if they don't
 	function isMatch(input, str) {
 		var re = new RegExp(input, 'i');
 		return (re.exec(str) !== null);
