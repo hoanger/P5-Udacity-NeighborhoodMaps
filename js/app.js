@@ -17,14 +17,11 @@
 			position: obj.position,
 		};
 		self.name = obj.name;
-
-		// set marker id
+		// set marker id to be the same as name
 		markerOpts.id = self.name;
-
-		// create marker based on marker options
 		map.addMarker(markerOpts);
 
-		// set visibility of place
+		// set visibility of place item
 		self.vis = ko.observable(true);
 
 		// subscribe to visibility change and sync with its marker visibility
