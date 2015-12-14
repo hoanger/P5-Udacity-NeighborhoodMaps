@@ -14,6 +14,13 @@
 				opts.map = this.googleMap;
 				marker = new google.maps.Marker(opts);
 				this.markers.add(marker);
+			},
+			setVis: function(newVal, callback) {
+				this.markers.find(callback, function(markers) {
+					markers.forEach(function(marker) {
+						marker.setVisible(newVal);
+					});
+				});
 			}
 		};
 		return Mapper;

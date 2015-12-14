@@ -15,11 +15,11 @@
 		// marker options
 		var markerOpts = {
 			position: obj.position,
-			id: self.name
 		};
-
-		// set name
 		self.name = obj.name;
+
+		// set marker id
+		markerOpts.id = self.name;
 
 		// create marker based on marker options
 		map.addMarker(markerOpts);
@@ -27,9 +27,11 @@
 		// set visibility of place
 		self.vis = ko.observable(true);
 
-		// subscribe to visibility change and sync with marker visibility
+		// subscribe to visibility change and sync with its marker visibility
 		self.vis.subscribe(function(newValue) {
-			//self.marker.setVisible(newValue);
+			map.setVis(newValue, function(marker) {
+				return marker.id === self.name;
+			});
 		});
 	}
 
