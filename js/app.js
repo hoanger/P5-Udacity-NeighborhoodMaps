@@ -8,6 +8,11 @@
 	var options = mapper.MAP_OPTIONS;
 	// create map instance
 	var map = new Mapper(element, options);
+	// function to get places data
+	var data = function() {
+		// this can be modified to retrieve data from another source
+		return myData;
+	};
 
 	// constructor for a place
 	function Place(obj) {
@@ -23,7 +28,6 @@
 
 		// set visibility of place item
 		self.vis = ko.observable(true);
-
 		// subscribe to visibility change and sync with its marker visibility
 		self.vis.subscribe(function(newValue) {
 			map.setVis(newValue, function(marker) {
@@ -32,35 +36,31 @@
 		});
 	}
 
+
 	// View Model
 	function AppViewModel() {
 		var self = this;
-
 		// initiate variable to hold searchText
 		self.searchText = ko.observable('');
-
 		// subscribe to changes in search bar
 		self.searchText.subscribe(function(newValue) {
 			filterPlaces(newValue);
 		});
+		// create observable array
+		self.places = ko.observableArray();
 
 		// create places list from data
-		getPlaces(myData);
+		getPlaces(data());
 
-		// sort alphabetical by name
-		self.places.sort(function (left, right) {
-			return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
-		});
-
-		// make editable dataset from data
+		// push editable dataset from data
 		function getPlaces(dataset) {
-
-			// create observable array
-			self.places = ko.observableArray();
-
 			// push each place to observable array using dataset
 			dataset.forEach(function(datum) {
 				self.places.push(new Place(datum));
+			});
+			// sort alphabetical by name
+			self.places.sort(function (left, right) {
+				return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
 			});
 		}
 
