@@ -40,28 +40,32 @@
 	// View Model
 	function AppViewModel() {
 		var self = this;
+		var arr;
 		// initiate variable to hold searchText
 		self.searchText = ko.observable('');
 		// subscribe to changes in search bar
 		self.searchText.subscribe(function(newValue) {
 			filterPlaces(newValue);
 		});
-		// create observable array
-		self.places = ko.observableArray();
 
 		// create places list from data
-		getPlaces(data());
+		arr = getPlaces(data());
 
-		// push editable dataset from data
+		// create observable array
+		self.places = ko.observableArray(arr);
+
+		// get editable dataset from data into an array
 		function getPlaces(dataset) {
 			// push each place to observable array using dataset
+			var placesArr = [];
 			dataset.forEach(function(datum) {
-				self.places.push(new Place(datum));
+				placesArr.push(new Place(datum));
 			});
 			// sort alphabetical by name
-			self.places.sort(function (left, right) {
+			placesArr.sort(function (left, right) {
 				return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
 			});
+			return placesArr;
 		}
 
 		// hides and shows places list based on match
