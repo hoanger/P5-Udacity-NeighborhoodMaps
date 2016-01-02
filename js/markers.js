@@ -10,7 +10,7 @@
 			add: function(marker) {
 				this.markers.push(marker);
 			},
-			// function to find a marker
+			// function to find a markers and optionally call an action on them
 			find: function(callback, action) {
 				var callbackReturn;
 	            var markers = this.markers;

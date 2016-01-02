@@ -31,11 +31,8 @@
 		self.vis = ko.observable(true);
 		// subscribe to visibility change and sync with its marker visibility
 		self.vis.subscribe(function(newValue) {
-			map.setVis(newValue, function(marker) {
-				return marker.id === self.name;
-			});
+			visPlace(self.name, newValue);
 		});
-
 		// function runs when a place is clicked
 		self.clicked = function(){
 			bouncePlace(self.name);
@@ -98,6 +95,12 @@
 	// bounces marker with marker id matching input
 	function bouncePlace(placeId) {
 		map.bounceMarker(function(marker) {
+			return marker.id === placeId;
+		});
+	}
+	// sets visibility of a marker with marker id matching input
+	function visPlace(placeId, newVis) {
+		map.setVis(newVis, function(marker) {
 			return marker.id === placeId;
 		});
 	}
