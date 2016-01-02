@@ -20,12 +20,13 @@
 		// marker options
 		var markerOpts = {
 			position: obj.position,
+			fsqid: obj.fsqid,
+			id: obj.name
 		};
+		// Set place name
 		self.name = obj.name;
-		// set marker id to be the same as name
-		markerOpts.id = self.name;
+		// add marker using options
 		map.addMarker(markerOpts);
-
 		// set visibility of place item
 		self.vis = ko.observable(true);
 		// subscribe to visibility change and sync with its marker visibility

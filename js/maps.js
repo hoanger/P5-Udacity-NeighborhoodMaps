@@ -29,7 +29,7 @@
 					markers.forEach(function(marker){
 						marker.setAnimation(google.maps.Animation.BOUNCE);
 						window.setTimeout(function(){
-							marker.setAnimation(null)
+							marker.setAnimation(null);
 						}, 1400);
 					});
 				});
