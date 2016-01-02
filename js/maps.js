@@ -15,10 +15,22 @@
 				marker = new google.maps.Marker(opts);
 				this.markers.add(marker);
 			},
+			// set marker visibility to newVal
 			setVis: function(newVal, callback) {
 				this.markers.find(callback, function(markers) {
 					markers.forEach(function(marker) {
 						marker.setVisible(newVal);
+					});
+				});
+			},
+			// bounce a marker for a short moment
+			bounceMarker: function(callback) {
+				this.markers.find(callback, function(markers) {
+					markers.forEach(function(marker){
+						marker.setAnimation(google.maps.Animation.BOUNCE);
+						window.setTimeout(function(){
+							marker.setAnimation(null)
+						}, 1400);
 					});
 				});
 			}

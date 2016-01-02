@@ -34,6 +34,11 @@
 				return marker.id === self.name;
 			});
 		});
+
+		// function runs when a place is clicked
+		self.clicked = function(){
+			bouncePlace(self.name);
+		};
 	}
 
 
@@ -51,7 +56,7 @@
 		// create places list from data
 		arr = getPlaces(data());
 
-		// create observable array
+		// create observable array from array of data
 		self.places = ko.observableArray(arr);
 
 		// get editable dataset from data into an array
@@ -74,6 +79,8 @@
 				place.vis(isMatch(input, place.name));
 			});
 		}
+
+
 	}
 
 	// Initiate view model and apply bindings
@@ -81,10 +88,19 @@
 	ko.applyBindings(viewModel);
 
 	// searches text for any instance of input
-	//returns true if params match, false if they don't
+	// returns true if params match, false if they don't
 	function isMatch(input, str) {
 		var re = new RegExp(input, 'i');
 		return (re.exec(str) !== null);
 	}
+
+	// bounces marker with marker id matching input
+	function bouncePlace(placeId) {
+		map.bounceMarker(function(marker) {
+			return marker.id === placeId;
+		});
+	}
+
+
 
 })(window, window.Mapper);

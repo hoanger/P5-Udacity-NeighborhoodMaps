@@ -13,7 +13,7 @@
 					<input type="text" data-bind="textInput: searchText" placeholder="Filter..."></input>
 				</div>
 				<ul id="places-list" data-bind="foreach: places">
-					<li data-bind="text: name, visible: vis()">Item</li>
+					<li data-bind="text: name, visible: vis(), click: clicked">Item</li>
 				</ul>
 			</div>
 			<div id="map-canvas"></div>
