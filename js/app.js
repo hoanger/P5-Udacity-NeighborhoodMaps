@@ -14,32 +14,6 @@
 		return myData;
 	};
 
-	// constructor for a place
-	function Place(obj) {
-		var self = this;
-		// marker options
-		var markerOpts = {
-			position: obj.position,
-			fsqid: obj.fsqid,
-			id: obj.name
-		};
-		// Set place name
-		self.name = obj.name;
-		// add marker using options
-		map.addMarker(markerOpts);
-		// set visibility of place item
-		self.vis = ko.observable(true);
-		// subscribe to visibility change and sync with its marker visibility
-		self.vis.subscribe(function(newValue) {
-			visPlace(self.name, newValue);
-		});
-		// function runs when a place is clicked
-		self.clicked = function(){
-			bouncePlace(self.name);
-		};
-	}
-
-
 	// View Model
 	function AppViewModel() {
 		var self = this;
@@ -77,13 +51,36 @@
 				place.vis(isMatch(input, place.name));
 			});
 		}
-
-
 	}
 
 	// Initiate view model and apply bindings
 	viewModel = new AppViewModel();
 	ko.applyBindings(viewModel);
+
+	// constructor for a place
+	function Place(obj) {
+		var self = this;
+		// marker options
+		var markerOpts = {
+			position: obj.position,
+			fsqid: obj.fsqid,
+			id: obj.name
+		};
+		// Set place name
+		self.name = obj.name;
+		// add marker using options
+		map.addMarker(markerOpts);
+		// set visibility of place item
+		self.vis = ko.observable(true);
+		// subscribe to visibility change and sync with its marker visibility
+		self.vis.subscribe(function(newValue) {
+			visPlace(self.name, newValue);
+		});
+		// function runs when a place is clicked
+		self.clicked = function(){
+			bouncePlace(self.name);
+		};
+	}
 
 	// searches text for any instance of input
 	// returns true if params match, false if they don't

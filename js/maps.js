@@ -5,15 +5,28 @@
 		function Mapper(el, opts) {
 			this.googleMap = new google.maps.Map(el, opts);
 			this.markers = new Markerer();
+			// Google best practices call for only one info window to reduce clutter
+			this.infowindow = new google.maps.InfoWindow({
+    			content: ''
+  			});
 		}
 		Mapper.prototype = {
-
 			// create a marker and add to the markers array
 			addMarker: function(opts) {
+				var self = this;
 				var marker;
 				opts.map = this.googleMap;
 				marker = new google.maps.Marker(opts);
 				this.markers.add(marker);
+				// add listener to marker to bounce and display info window
+				marker.addListener('click', function(){
+					marker.setAnimation(google.maps.Animation.BOUNCE);
+					window.setTimeout(function(){
+						marker.setAnimation(null);
+					}, 700);
+					self.infowindow.setContent(marker.id);
+					self.infowindow.open(self.googleMap, marker);
+				});
 			},
 			// set marker visibility to newVal
 			setVis: function(newVal, callback) {
