@@ -19,8 +19,7 @@
 				// add listener to marker to bounce and display info window
 				marker.addListener('click', function(){
 					self._bounceMarker(marker, 700);
-					self.infowindow.setContent(this.id);
-					self.infowindow.open(self.googleMap, this);
+					self._showInfoWindow(marker);
 				});
 			},
 			// set marker visibility to newVal
@@ -46,6 +45,12 @@
 					window.setTimeout(function(){
 					mkr.setAnimation(null);
 				}, time);
+			},
+			// private function to display info window
+			_showInfoWindow: function(mkr){
+				// set content of info window to the marker id (name)
+				this.infowindow.setContent(mkr.id);
+				this.infowindow.open(this.googleMap, mkr);
 			}
 		};
 		return Mapper;
