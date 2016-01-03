@@ -30,12 +30,13 @@
 					});
 				});
 			},
-			// bounce a marker for a short moment
+			// bounce a marker for a short moment and show info window
 			bounceMarker: function(callback) {
 				var self = this;
 				this.markers.find(callback, function(markers) {
 					markers.forEach(function(marker){
 						self._bounceMarker(marker, 1400);
+						self._showInfoWindow(marker);
 					});
 				});
 			},
