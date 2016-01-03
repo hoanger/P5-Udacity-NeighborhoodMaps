@@ -31,7 +31,7 @@
 				});
 			},
 			// bounce a marker for a short moment and show info window
-			bounceMarker: function(callback) {
+			chooseMarker: function(callback) {
 				var self = this;
 				this.markers.find(callback, function(markers) {
 					markers.forEach(function(marker){

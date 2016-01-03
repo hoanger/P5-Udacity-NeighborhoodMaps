@@ -78,7 +78,7 @@
 		});
 		// function runs when a place is clicked
 		self.clicked = function(){
-			bouncePlace(self.name);
+			choosePlace(self.name);
 		};
 	}
 
@@ -90,8 +90,8 @@
 	}
 
 	// bounces marker with marker id matching input
-	function bouncePlace(placeId) {
-		map.bounceMarker(function(marker) {
+	function choosePlace(placeId) {
+		map.chooseMarker(function(marker) {
 			return marker.id === placeId;
 		});
 	}
