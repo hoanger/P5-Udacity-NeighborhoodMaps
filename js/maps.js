@@ -18,6 +18,11 @@
 				this.markers.add(marker);
 				// add listener to marker to bounce and display info window
 				marker.addListener('click', function(){
+					// ajax request for Foursquare data
+					var jqxhr = self._getFoursquare(this.fsqid);
+					// var venueData = jqxhr.responseJSON.response.venue;
+					console.log(jqxhr);
+
 					self._bounceMarker(marker, 700);
 					self._showInfoWindow(marker);
 				});
@@ -52,6 +57,30 @@
 				// set content of info window to the marker id (name)
 				this.infowindow.setContent(mkr.id);
 				this.infowindow.open(this.googleMap, mkr);
+			},
+			// private function to get info window data from foursquare
+			_getFoursquare: function(venueId) {
+				if (venueId) {
+					var url = 'https://api.foursquare.com/v2/venues/' + venueId + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20160103';
+					var request =	$.get( url, function(data) {
+						alert( "success" );
+						console.log(data.response);
+						var venueData = {}
+						venueData = data;
+
+					})
+					.fail(function(data) {
+					    alert( "error" );
+
+					})
+					.always(function() {
+					    alert( "finished" );
+					});
+				} else {
+					console.log("No information available")
+					var venueData = "No Info";
+				}
+				return venueData;
 			}
 		};
 		return Mapper;
