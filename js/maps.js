@@ -69,19 +69,15 @@
 			},
 			// private function to set content in infowindow
 			_setInfoWindow: function(vInfo){
-				var info;
-				var fsqAttribution;
+				//initialize base inforwindow information
+				var info = '<br/><span style="text-align:center";>Loading Foursquare data...</span><br /><br />';
+				var fsqAttribution = '<img src="images/pb-foursquare.png">';
 				if (vInfo){
 					console.log(vInfo);
 					info = "<p>Name: " + vInfo.name + "</p><p>Phone: " + vInfo.phone + "</p>";
-
-					fsqAttribution = '<img src="images/pb-foursquare.png">';
 					if (vInfo.url) {
 						fsqAttribution = '<br /><a href="' + vInfo.url + '" target="blank">' + fsqAttribution + '</a>';
 					}
-				} else {
-					info="";
-					fsqAttribution="";
 				}
 				console.log(vInfo);
 				this.infowindow.setContent(info + fsqAttribution);
