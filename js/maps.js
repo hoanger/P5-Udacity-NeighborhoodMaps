@@ -19,18 +19,7 @@
 				// add listener to marker to bounce and display info window
 				marker.addListener('click', function(){
 					// ajax request for Foursquare data if there is an fsqid
-					if (this.fsqid) {
-						venueInfo = self._getFoursquare(this.fsqid);
-					} else {
-						var venueInfo = {
-							name: this.id,
-							phone: "No info available from Foursquare."
-						};
-						self._setInfoWindow(venueInfo);
-					}
-
-					self._bounceMarker(marker, 700);
-					self._showInfoWindow(marker, venueInfo);
+					self._selectMarker(this);
 				});
 			},
 			// set marker visibility to newVal
@@ -46,10 +35,25 @@
 				var self = this;
 				this.markers.find(callback, function(markers) {
 					markers.forEach(function(marker){
-						self._bounceMarker(marker, 1400);
-						self._showInfoWindow(marker);
+						self._selectMarker(marker);
 					});
 				});
+			},
+			// private function to bounce marker and set/show infowindow
+			_selectMarker: function(mkr) {
+				var self = this;
+				var venueInfo ={};
+				if (mkr.fsqid) {
+						venueInfo = self._getFoursquare(mkr.fsqid);
+				} else {
+					venueInfo = {
+						name: mkr.id,
+						phone: "No info available from Foursquare."
+					};
+					self._setInfoWindow(venueInfo);
+				}
+				self._bounceMarker(mkr, 700);
+				self._showInfoWindow(mkr);
 			},
 			// private bounce marker function
 			_bounceMarker: function(mkr, time) {
@@ -65,19 +69,22 @@
 			},
 			// private function to set content in infowindow
 			_setInfoWindow: function(vInfo){
-				this.infowindow.setContent(vInfo.name + "<br />" + vInfo.phone);
+				var info = vInfo ? "<p>Name: " + vInfo.name + "</p><p>Phone: " + vInfo.phone + "</p>" : "";
+				var fsqAttribution ="";
+				this.infowindow.setContent(info + fsqAttribution);
 			},
 			// private function to get info window data from foursquare
 			_getFoursquare: function(venueId) {
 				var self = this;
 				var url = 'https://api.foursquare.com/v2/venues/' + venueId + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20160103';
 				// clear stale infowindow data
-				self._setInfoWindow({name: "", phone: ""});
+				self._setInfoWindow();
 				var request = $.getJSON(url, null, function(data) {
 					var venueData = {};
 					//alert("success");
 					venueData.name = data.response.venue.name;
 					venueData.phone = data.response.venue.contact.formattedPhone;
+					venueData.phone = venueData.phone ? venueData.phone : "None"
 					self._setInfoWindow(venueData);
 				}, "json")
 				.fail(function(data) {
