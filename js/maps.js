@@ -18,13 +18,19 @@
 				this.markers.add(marker);
 				// add listener to marker to bounce and display info window
 				marker.addListener('click', function(){
-					// ajax request for Foursquare data
-					var jqxhr = self._getFoursquare(this.fsqid);
-					// var venueData = jqxhr.responseJSON.response.venue;
-					console.log(jqxhr);
+					// ajax request for Foursquare data if there is an fsqid
+					if (this.fsqid) {
+						venueInfo = self._getFoursquare(this.fsqid);
+					} else {
+						var venueInfo = {
+							name: this.id,
+							phone: "No info available from Foursquare."
+						};
+						self._setInfoWindow(venueInfo);
+					}
 
 					self._bounceMarker(marker, 700);
-					self._showInfoWindow(marker);
+					self._showInfoWindow(marker, venueInfo);
 				});
 			},
 			// set marker visibility to newVal
@@ -55,32 +61,31 @@
 			// private function to display info window
 			_showInfoWindow: function(mkr){
 				// set content of info window to the marker id (name)
-				this.infowindow.setContent(mkr.id);
 				this.infowindow.open(this.googleMap, mkr);
+			},
+			// private function to set content in infowindow
+			_setInfoWindow: function(vInfo){
+				this.infowindow.setContent(vInfo.name + "<br />" + vInfo.phone);
 			},
 			// private function to get info window data from foursquare
 			_getFoursquare: function(venueId) {
-				if (venueId) {
-					var url = 'https://api.foursquare.com/v2/venues/' + venueId + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20160103';
-					var request =	$.get( url, function(data) {
-						alert( "success" );
-						console.log(data.response);
-						var venueData = {}
-						venueData = data;
-
-					})
-					.fail(function(data) {
-					    alert( "error" );
-
-					})
-					.always(function() {
-					    alert( "finished" );
-					});
-				} else {
-					console.log("No information available")
-					var venueData = "No Info";
-				}
-				return venueData;
+				var self = this;
+				var url = 'https://api.foursquare.com/v2/venues/' + venueId + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20160103';
+				// clear stale infowindow data
+				self._setInfoWindow({name: "", phone: ""});
+				var request = $.getJSON(url, null, function(data) {
+					var venueData = {};
+					//alert("success");
+					venueData.name = data.response.venue.name;
+					venueData.phone = data.response.venue.contact.formattedPhone;
+					self._setInfoWindow(venueData);
+				}, "json")
+				.fail(function(data) {
+				    alert("error");
+				})
+				.always(function() {
+				    console.log("finished");
+				});
 			}
 		};
 		return Mapper;
