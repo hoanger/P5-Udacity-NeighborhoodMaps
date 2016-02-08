@@ -44,7 +44,7 @@
 				var self = this;
 				var venueInfo ={};
 				if (mkr.fsqid) {
-						venueInfo = self._getFoursquare(mkr.fsqid);
+						self._getFoursquare(mkr.fsqid);
 				} else {
 					venueInfo = {
 						name: mkr.id,
@@ -69,8 +69,21 @@
 			},
 			// private function to set content in infowindow
 			_setInfoWindow: function(vInfo){
-				var info = vInfo ? "<p>Name: " + vInfo.name + "</p><p>Phone: " + vInfo.phone + "</p>" : "";
-				var fsqAttribution ="";
+				var info;
+				var fsqAttribution;
+				if (vInfo){
+					console.log(vInfo);
+					info = "<p>Name: " + vInfo.name + "</p><p>Phone: " + vInfo.phone + "</p>";
+
+					fsqAttribution = '<img src="images/pb-foursquare.png">';
+					if (vInfo.url) {
+						fsqAttribution = '<br /><a href="' + vInfo.url + '" target="blank">' + fsqAttribution + '</a>';
+					}
+				} else {
+					info="";
+					fsqAttribution="";
+				}
+				console.log(vInfo);
 				this.infowindow.setContent(info + fsqAttribution);
 			},
 			// private function to get info window data from foursquare
@@ -85,6 +98,7 @@
 					venueData.name = data.response.venue.name;
 					venueData.phone = data.response.venue.contact.formattedPhone;
 					venueData.phone = venueData.phone ? venueData.phone : "None"
+					venueData.url = data.response.venue.canonicalUrl;
 					self._setInfoWindow(venueData);
 				}, "json")
 				.fail(function(data) {
