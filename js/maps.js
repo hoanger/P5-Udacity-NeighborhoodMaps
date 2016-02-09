@@ -39,6 +39,10 @@
 					});
 				});
 			},
+			// close infowindow
+			closeInfowindow: function() {
+				this.infowindow.close();
+			},
 			// private function to bounce marker and set/show infowindow
 			_selectMarker: function(mkr) {
 				var self = this;
@@ -69,7 +73,7 @@
 			},
 			// private function to set content in infowindow
 			_setInfoWindow: function(vInfo){
-				//initialize base inforwindow information
+				//initialize base infowindow information
 				var info = '<br/><span style="text-align:center";>Loading Foursquare data...</span><br /><br />';
 				var fsqAttribution = '<img src="images/pb-foursquare.png">';
 				if (vInfo){

@@ -75,6 +75,10 @@
 		// subscribe to visibility change and sync with its marker visibility
 		self.vis.subscribe(function(newValue) {
 			visPlace(self.name, newValue);
+			// if filter makes a marker disappear, then close infowindow
+			if (!newValue) {
+				map.closeInfowindow();
+			}
 		});
 		// function runs when a place is clicked
 		self.clicked = function(){
