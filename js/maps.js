@@ -18,7 +18,6 @@
 				this.markers.add(marker);
 				// add listener to marker to bounce and display info window
 				marker.addListener('click', function(){
-					// ajax request for Foursquare data if there is an fsqid
 					self._selectMarker(this);
 				});
 			},
@@ -47,6 +46,7 @@
 			_selectMarker: function(mkr) {
 				var self = this;
 				var venueInfo ={};
+				// get foursquare data if it exists, otherwise show hardcoded information
 				if (mkr.fsqid) {
 						self._getFoursquare(mkr.fsqid);
 				} else {
@@ -74,7 +74,7 @@
 			// private function to set content in infowindow
 			_setInfoWindow: function(vInfo){
 				//initialize base infowindow information
-				var info = '<br/><span style="text-align:center";>Loading Foursquare data...</span><br /><br />';
+				var info = '<br /><br /><br /><span style="text-align:center";>Loading Foursquare data...</span><br /><br /><br />';
 				var fsqAttribution = '<img src="images/pb-foursquare.png">';
 				if (vInfo){
 					console.log(vInfo);
@@ -82,29 +82,33 @@
 					if (vInfo.url) {
 						fsqAttribution = '<br /><a href="' + vInfo.url + '" target="blank">' + fsqAttribution + '</a>';
 					}
+					if (vInfo.error) {
+						info = '<br/><span style="text-align:center;">Sorry, there was an error retrieving information.<br / >Please try again later.</span><br /><br />';
+					}
 				}
-				console.log(vInfo);
 				this.infowindow.setContent(info + fsqAttribution);
 			},
 			// private function to get info window data from foursquare
 			_getFoursquare: function(venueId) {
 				var self = this;
 				var url = 'https://api.foursquare.com/v2/venues/' + venueId + '?client_id=' + CLIENT_ID + '&client_secret=' + CLIENT_SECRET + '&v=20160103';
+				var venueData = {
+						error: false
+					};
 				// clear stale infowindow data
 				self._setInfoWindow();
 				var request = $.getJSON(url, null, function(data) {
-					var venueData = {};
-					//alert("success");
 					venueData.name = data.response.venue.name;
 					venueData.phone = data.response.venue.contact.formattedPhone;
 					venueData.phone = venueData.phone ? venueData.phone : "None"
 					venueData.url = data.response.venue.canonicalUrl;
-					self._setInfoWindow(venueData);
 				}, "json")
 				.fail(function(data) {
-				    alert("error");
+				    console.log("error");
+				    venueData.error = true;
 				})
 				.always(function() {
+					self._setInfoWindow(venueData);
 				    console.log("finished");
 				});
 			}
