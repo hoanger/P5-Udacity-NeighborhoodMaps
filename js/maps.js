@@ -57,6 +57,7 @@
 					self._setInfoWindow(venueInfo);
 				}
 				self._bounceMarker(mkr, 700);
+				self._dimMarker(mkr);
 				self._showInfoWindow(mkr);
 			},
 			// private bounce marker function
@@ -65,6 +66,17 @@
 					window.setTimeout(function(){
 					mkr.setAnimation(null);
 				}, time);
+			},
+			// private marker to only dim the passed marker
+			_dimMarker: function(mkr) {
+				var self = this;
+				// reset all marker opacities to 100%
+				var allMarkers = this.markers;
+				allMarkers.markers.forEach(function(marker){
+					marker.setOpacity(1);
+				});
+				//dim the selected marker
+				mkr.setOpacity(0.5);
 			},
 			// private function to display info window
 			_showInfoWindow: function(mkr){
