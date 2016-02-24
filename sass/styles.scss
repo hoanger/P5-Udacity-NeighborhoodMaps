@@ -1,9 +1,11 @@
 // variables
 $full: 100%;
+$half: 60%;
 $places-clr: #3077ab;
 $places-width: 250px;
 $search-margin: 10px;
 $search-padding: 4px;
+$mobile-bkpt: 768px;
 
 // styles
 html {
@@ -17,8 +19,27 @@ body {
 	font-family: Arial, sans-serif;
 }
 
-#map-canvas, #app-section{
+#app-section {
 	height: $full;
+	display: flex;
+	flex-direction: row;
+	@media screen and (max-width: $mobile-bkpt){
+		flex-direction: column;
+	}
+}
+
+#map-canvas {
+	height: $full;
+	width: $full;
+	float: right;
+	order: 2;
+	@media screen and (max-width: $mobile-bkpt){
+		height: $full;
+		width: $full;
+		float: none;
+		order: 1;
+		/*flex-wrap: wrap;*/
+	}
 }
 
 #sidebar {
@@ -30,6 +51,15 @@ body {
 	border-width: 0;
 	overflow: scroll;
 	padding-right: 5px;
+	order: 1;
+	flex-shrink: 0;
+	@media screen and (max-width: $mobile-bkpt){
+		height: $full - $half;
+		width: $full;
+		float: none;
+		padding-right: 0px;
+		order: 2;
+	}
 
 	#search-bar {
 		background-color: #aaa;
@@ -42,7 +72,13 @@ body {
 			border-color: $places-clr;
 			padding: $search-padding;
 			margin: $search-margin;
-			width: $places-width - 2 * ($search-margin + $search-padding);
+			width: $full - 7%;
+			@media screen and (min-width: $mobile-bkpt + 1){
+				width: $places-width - 2 * ($search-margin + $search-padding);
+			}
+		}
+		@media screen and (max-width: $mobile-bkpt){
+			width: $full;
 		}
 	}
 
