@@ -14,5 +14,4 @@
 			position: google.maps.ControlPosition.LEFT_TOP
 		}
 	};
-
 })(window, google, window.Mapper || (window.Mapper = {}));

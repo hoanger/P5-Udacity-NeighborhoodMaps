@@ -14,24 +14,29 @@
 		return myData;
 	};
 
-	// View Model
+	/**
+	* @description View Model
+	* @constructor
+	*/
 	function AppViewModel() {
 		var self = this;
 		var arr;
 		// initiate variable to hold searchText
 		self.searchText = ko.observable('');
-		// subscribe to changes in search bar
+		// subscribe to changes in searchText and run filterPlaces() on change
 		self.searchText.subscribe(function(newValue) {
 			filterPlaces(newValue);
 		});
 
 		// create places list from data
 		arr = getPlaces(data());
-
-		// create observable array from array of data
 		self.places = ko.observableArray(arr);
 
-		// get editable dataset from data into an array
+		/**
+		* @description Get dataset from data into an array in alphabetical order
+		* @param {array} dataset - array of objects (places)
+		* @returns array of objects sorted alphabetically by name
+		*/
 		function getPlaces(dataset) {
 			// push each place to observable array using dataset
 			var placesArr = [];
@@ -45,7 +50,10 @@
 			return placesArr;
 		}
 
-		// hides and shows places list based on match
+		/**
+		* @description Change visibility of place list item depending on match with input
+		* param {string} input
+		*/
 		function filterPlaces(input) {
 			self.places().forEach(function(place) {
 				place.vis(isMatch(input, place.name));
@@ -57,7 +65,11 @@
 	viewModel = new AppViewModel();
 	ko.applyBindings(viewModel);
 
-	// constructor for a place
+	/**
+	* @description Constructor for a place
+	* @constructor
+	* param {object} obj - place data used to construct the place
+	*/
 	function Place(obj) {
 		var self = this;
 		// marker options
@@ -80,30 +92,41 @@
 				map.closeInfowindow();
 			}
 		});
-		// function runs when a place is clicked
+		// call choosePlace() when the list item is clicked
 		self.clicked = function(){
 			choosePlace(self.name);
 		};
 	}
 
-	// searches text for any instance of input
-	// returns true if params match, false if they don't
+	/**
+	* @description compares two strings and checks if one is a subset of the other
+	* @param {string} input - subset string of characters used to compare
+	* @param {string} str - main string to find subset in
+	* @returns true if input is found in str, false otherwise
+	*/
 	function isMatch(input, str) {
 		var re = new RegExp(input, 'i');
 		return (re.exec(str) !== null);
 	}
 
-	// bounces marker with marker id matching input
+	/**
+	* @description Indicate chosen marker that matches a place item
+	* @param {string} placeId - identifier for a place
+	*/
 	function choosePlace(placeId) {
 		map.chooseMarker(function(marker) {
 			return marker.id === placeId;
 		});
 	}
-	// sets visibility of a marker with marker id matching input
+
+	/**
+	* @description Set visibility of a marker with given id
+	* @param {string} placeId - identifier for a place
+	* @param {boolean} newVis - visibility to set for the marker
+	*/
 	function visPlace(placeId, newVis) {
 		map.setVis(newVis, function(marker) {
 			return marker.id === placeId;
 		});
 	}
-
 })(window, window.Mapper);
