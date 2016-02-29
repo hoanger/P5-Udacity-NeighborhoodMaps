@@ -5,6 +5,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
   	<script src="https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js"></script>
   	<script src="js/data.js"></script>
+  	<meta name="viewport" content="width=500, initial-scale=1, maximum-scale=1">
 </head>
 	<body>
 		<div id="app-section">
@@ -14,7 +15,7 @@
 					<input type="text" data-bind="textInput: searchText" placeholder="Filter..."></input>
 				</div>
 				<ul id="places-list" data-bind="foreach: places">
-					<li data-bind="text: name, visible: vis(), click: clicked">Item</li>
+					<li data-bind="text: name, visible: vis(), click: clicked">Please try again...</li>
 				</ul>
 			</div>
 		</div>
