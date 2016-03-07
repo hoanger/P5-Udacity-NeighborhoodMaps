@@ -1,4 +1,4 @@
-(function(window, mapper) {
+var runApp = function(window, mapper) {
 
 	// to hold our viewmodel
 	var viewModel;
@@ -6,6 +6,7 @@
 	var element = $("#map-canvas")[0];
 	// get map options
 	var options = mapper.MAP_OPTIONS;
+	options.zoomControlOptions = { position: google.maps.ControlPosition.LEFT_TOP };
 	// create map instance
 	var map = new Mapper(element, options);
 	// function to get places data
@@ -45,7 +46,7 @@
 			});
 			// sort alphabetical by name
 			placesArr.sort(function (left, right) {
-				return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1)
+				return left.name == right.name ? 0 : (left.name < right.name ? -1 : 1);
 			});
 			return placesArr;
 		}
@@ -129,4 +130,4 @@
 			return marker.id === placeId;
 		});
 	}
-})(window, window.Mapper);
+};

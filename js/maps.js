@@ -1,4 +1,4 @@
-(function(window, google, markerer) {
+(function(window, markerer) {
 	var Mapper = (function() {
 		/**
 		* @description Object to hold all values and functions related to the map
@@ -159,4 +159,4 @@
 		return Mapper;
 	})();
 	window.Mapper = Mapper;
-})(window, google, Markerer);
+})(window, Markerer);
